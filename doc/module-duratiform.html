@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: duratiform</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Module: duratiform</h1>
+    
+    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    duratiform
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="duratiform.js.html">duratiform.js</a>, <a href="duratiform.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="divide"><span class="type-signature">&lt;static> </span>divide<span class="signature">(nDuration, <span class="optional">nPartQty</span>, <span class="optional">bAddStrings</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Separate time duration into parts.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>nDuration</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Time duration in milliseconds.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>nPartQty</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Parts quantity. The default value is 3.     The following values are allowed:     <ul>     <li><code>1</code> - return seconds quantity (<code>second</code> field)     <li><code>2</code> - return quantity of minutes and seconds (<code>minute</code> and <code>second</code> fields)     <li><code>3</code> - return quantity of hours, minutes and seconds (<code>hour</code>, <code>minute</code> and <code>second</code> fields)     <li><code>4</code> - return quantity of days, hours, minutes and seconds (<code>day</code>, <code>hour</code>, <code>minute</code> and <code>second</code> fields)     </ul></td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>bAddStrings</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Specifies whether additional string fields should be included into result object.     An additional field represents a value of calculated part that is converted into string      and is prefixed with "0" if it is necessary (i.e. values from 0 to 9 are converted to "00"-"09").     The default value is <code>false</code>.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="duratiform.js.html">duratiform.js</a>, <a href="duratiform.js.html#line87">line 87</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Object representing the requested parts of time duration. Can contain the following fields.     <table class="params">         <tr>             <th>Name</th>             <th>Type</th>             <th>Description</th>         </tr>         <tr>             <td>day</td>             <td>Integer</td>             <td>Quantity of full days</td>         </tr>         <tr>             <td>day2</td>             <td>String</td>             <td>                 Quantity of full days. String contains at least 2 characters.                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.             </td>         </tr>         <tr>             <td>hour</td>             <td>Integer</td>             <td>Quantity of full hours</td>         </tr>         <tr>             <td>hour2</td>             <td>String</td>             <td>                 Quantity of full hours. String contains at least 2 characters.                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.             </td>         </tr>         <tr>             <td>minute</td>             <td>Integer</td>             <td>Quantity of full minutes</td>         </tr>         <tr>             <td>minute2</td>             <td>String</td>             <td>                 Quantity of full minutes. String contains at least 2 characters.                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.             </td>         </tr>         <tr>             <td>second</td>             <td>Integer</td>             <td>Quantity of full seconds</td>         </tr>         <tr>             <td>second2</td>             <td>String</td>             <td>                 Quantity of full seconds. String contains at least 2 characters.                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.             </td>         </tr>     </table>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">Object</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="format"><span class="type-signature">&lt;static> </span>format<span class="signature">(nDuration, <span class="optional">sFormat</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Convert time duration into string.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		<th>Argument</th>
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>nDuration</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Time duration in milliseconds.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>sFormat</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+            
+            <td class="description last">Format of the returned value. The default value is <code>hh:mm:ss</code>.<br>     The following tokens are interpreted in special way:     <ul>     <li><code>\x</code> - replaced by <code>x</code>, where <code>x</code> is any character     <li><code>d</code> - quantity of days (1 or more characters)     <li><code>dd</code> - quantity of days (2 or more characters)     <li><code>h</code> - quantity of hours (1 or more characters)     <li><code>hh</code> - quantity of hours (2 or more characters)     <li><code>m</code> - quantity of minutes (1 or more characters)     <li><code>mm</code> - quantity of minutes (2 or more characters)     <li><code>s</code> - quantity of seconds (1 or more characters)     <li><code>ss</code> - quantity of seconds (2 or more characters)     <li><code>[</code> - cancel special processing of the following characters (except <code>\x</code> and <code>]</code>);             this character won't be included into the result     <li><code>]</code> - restore special processing that was previously cancelled by <code>[</code> character;             this character won't be included into the result;             thus any sequence of characters that is surrounded by square brackets (except <code>\x</code> and <code>]</code>)             will be included into the result as is but without brackets     </ul>     All other characters will be included into the result as is.</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="duratiform.js.html">duratiform.js</a>, <a href="duratiform.js.html#line159">line 159</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    String representing time duration depending of format.
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">String</span>
+
+
+	</dd>
+</dl>
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-duratiform.html">duratiform</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a> on Sun Dec 22 2013 21:31:14 GMT+0400 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

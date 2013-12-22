@@ -1,0 +1,49 @@
+{
+  "name": "duratiform",
+  "version": "0.0.1",
+  "description": "Utility to separate into parts and to format time duration in milliseconds",
+  "main": "duratiform.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gamtiq/duratiform.git"
+  },
+  "keywords": [
+    "time",
+    "duration",
+    "divide",
+    "separate",
+    "decompose",
+    "format",
+    "millisecond"
+  ],
+  "author": "Denis Sikuler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gamtiq/duratiform/issues"
+  },
+  "homepage": "https://github.com/gamtiq/duratiform",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-jsdoc": "~0.4.2",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-umd": "~1.6.1",
+    "grunt-mocha-cli": "~1.4.0"
+  },
+  
+  "jam": {
+    "main": "dist/duratiform.js",
+    "include": [
+      "dist",
+      "doc",
+      "README.md"
+    ]
+  },
+  "categories": [
+    "Data",
+    "Utilities"
+  ]
+}

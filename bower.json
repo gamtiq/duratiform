@@ -1,0 +1,30 @@
+{
+  "name": "duratiform",
+  "main": [
+    "duratiform.js", 
+    "duratiform.min.js"
+  ],
+  "version": "0.0.1",
+  "homepage": "https://github.com/gamtiq/duratiform",
+  "authors": [
+    "Denis Sikuler"
+  ],
+  "description": "Utility to separate into parts and to format time duration in milliseconds",
+  "keywords": [
+    "time",
+    "duration",
+    "divide",
+    "separate",
+    "decompose",
+    "format",
+    "millisecond"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
