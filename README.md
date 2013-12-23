@@ -1,8 +1,9 @@
 # duratiform
 
-[![NPM version](https://badge.fury.io/js/duratiform.png)](http://badge.fury.io/js/duratiform)
-
 Utility to separate into parts and to format time duration in milliseconds.
+
+[![NPM version](https://badge.fury.io/js/duratiform.png)](http://badge.fury.io/js/duratiform)
+[![Build Status](https://travis-ci.org/gamtiq/duratiform.png)](https://travis-ci.org/gamtiq/duratiform)
 
 ## Installation
 
