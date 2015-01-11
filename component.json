@@ -1,6 +1,6 @@
 {
   "name": "duratiform",
-  "repo": "gamtiq/duratiform",
+  "repository": "gamtiq/duratiform",
   "description": "Utility to separate into parts and to format time duration in milliseconds",
   "version": "0.0.1",
   "keywords": [

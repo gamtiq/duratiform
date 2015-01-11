@@ -11,7 +11,7 @@ Utility to separate into parts and to format time duration in milliseconds.
 
     npm install duratiform
 
-### [Component](http://component.io)
+### [Component](https://github.com/componentjs/component)
 
     component install gamtiq/duratiform
 
