@@ -1,10 +1,10 @@
 {
   "name": "duratiform",
   "main": [
-    "duratiform.js", 
-    "duratiform.min.js"
+    "dist/duratiform.js", 
+    "dist/duratiform.min.js"
   ],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://github.com/gamtiq/duratiform",
   "authors": [
     "Denis Sikuler"

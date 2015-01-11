@@ -1,6 +1,6 @@
 {
   "name": "duratiform",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Utility to separate into parts and to format time duration in milliseconds",
   "main": "duratiform.js",
   "scripts": {
