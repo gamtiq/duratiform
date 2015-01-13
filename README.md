@@ -23,13 +23,17 @@ Utility to separate into parts and to format time duration in milliseconds.
 
     bower install duratiform
 
+### [SPM](http://spmjs.io)
+
+    spm install duratiform
+
 ### AMD, &lt;script&gt;
 
 Use `dist/duratiform.js` or `dist/duratiform.min.js` (minified version).
 
 ## Usage
 
-### Node, Component
+### Node, Component, SPM
 
 ```js
 var duratiform = require("duratiform");

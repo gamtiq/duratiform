@@ -30,7 +30,7 @@
     "grunt-jsdoc": "~0.4.2",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-uglify": "~0.2.7",
-    "grunt-umd": "~1.6.1",
+    "grunt-umd": "~1.7.0",
     "grunt-mocha-cli": "~1.4.0"
   },
   
@@ -45,5 +45,8 @@
   "categories": [
     "Data",
     "Utilities"
-  ]
+  ],
+  "spm": {
+    "main": "duratiform.js"
+  }
 }

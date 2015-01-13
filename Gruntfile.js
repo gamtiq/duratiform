@@ -60,7 +60,8 @@ module.exports = function(grunt) {
                 src: "<%= src %>",
                 dest: "<%= dest %>",
                 objectToExport: "module.exports",
-                globalAlias: "<%= name %>"
+                globalAlias: "<%= name %>",
+                indent: "    "
             }
         }
         
