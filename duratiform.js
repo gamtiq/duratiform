@@ -157,12 +157,15 @@ function divide(nDuration, nPartQty, bAddStrings) {
  * @alias module:duratiform.format
  */
 function format(nDuration, sFormat) {
+    function getPart() {
+        return String(struct[this.p]);
+    }
+
     /*jshint boss:true*/
     var result = [],
         bEscape = false,
         bReplace = true,
         nP = 0,
-        replaceList = [],
         specialChar = {
             d: ["day", 4],
             h: ["hour", 3],
@@ -170,7 +173,7 @@ function format(nDuration, sFormat) {
             s: ["second", 1]
         },
         sSlash = "\\",
-        nI, nL, sChar, struct;
+        nI, nL, sChar, part, struct;
     
     if (! sFormat) {
         sFormat = "hh:mm:ss";
@@ -186,18 +189,17 @@ function format(nDuration, sFormat) {
         // Special character
         else if (bReplace && sChar in specialChar) {
             struct = specialChar[sChar];
-            // Save replacement position
-            replaceList.push(result.length);
             // Save value that will be replaced:
             // 2 or more characters
             if (sFormat.charAt(nI + 1) === sChar) {
-                result.push(struct[0] + "2");
+                part = struct[0] + "2";
                 nI++;
             }
             // 1 or more characters
             else {
-                result.push(struct[0]);
+                part = struct[0];
             }
+            result.push({p: part, toString: getPart});
             // Change quantity of time duration parts if it is necessary
             if (struct[1] > nP) {
                 nP = struct[1];
@@ -220,13 +222,9 @@ function format(nDuration, sFormat) {
             result.push(sChar);
         }
     }
-    // Place parts of duration into appropriate positions
-    if (nL = replaceList.length) {
+    // Get parts of duration if it is necessary
+    if (nP) {
         struct = divide(nDuration, nP, true);
-        for (nI = 0; nI < nL; nI++) {
-            nP = replaceList[nI];
-            result[nP] = struct[ result[nP] ];
-        }
     }
     return result.join("");
 }
