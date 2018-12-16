@@ -11,21 +11,9 @@ Utility to separate into parts and to format time duration in milliseconds.
 
     npm install duratiform
 
-### [Component](https://github.com/componentjs/component)
-
-    component install gamtiq/duratiform
-
-### [Jam](http://jamjs.org)
-
-    jam install duratiform
-
 ### [Bower](http://bower.io)
 
     bower install duratiform
-
-### [SPM](http://spmjs.io)
-
-    spm install duratiform
 
 ### AMD, &lt;script&gt;
 
@@ -33,18 +21,16 @@ Use `dist/duratiform.js` or `dist/duratiform.min.js` (minified version).
 
 ## Usage
 
-### Node, Component, SPM
+### Node
 
 ```js
 var duratiform = require("duratiform");
 ```
 
-### Jam
+### [Duo](http://duojs.org)
 
 ```js
-require(["duratiform"], function(duratiform) {
-    ...
-});
+var duratiform = require("gamtiq/duratiform");
 ```
 
 ### AMD

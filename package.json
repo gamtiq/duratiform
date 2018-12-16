@@ -32,21 +32,5 @@
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-umd": "~1.7.0",
     "grunt-mocha-cli": "~1.4.0"
-  },
-  
-  "jam": {
-    "main": "dist/duratiform.js",
-    "include": [
-      "dist",
-      "doc",
-      "README.md"
-    ]
-  },
-  "categories": [
-    "Data",
-    "Utilities"
-  ],
-  "spm": {
-    "main": "duratiform.js"
   }
 }
