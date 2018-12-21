@@ -150,6 +150,11 @@ function divide(nDuration, nPartQty, bAddStrings) {
  *              this character won't be included into the result;
  *              thus any sequence of characters that is surrounded by square brackets (except <code>\x</code> and <code>]</code>)
  *              will be included into the result as is but without brackets
+ *      <li><code>(x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
+ *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
+ *              that will be included in the result only when the corresponding part of duration is present (above 0)
+ *      <li><code>)</code> - end of previous group; thus in format <code>(h:h:)mm</code> hours part
+ *              will be in result only when duration is greater than 60 minutes
  *      </ul>
  *      All other characters will be included into the result as is.
  * @return {String}
@@ -157,14 +162,19 @@ function divide(nDuration, nPartQty, bAddStrings) {
  * @alias module:duratiform.format
  */
 function format(nDuration, sFormat) {
+    /*jshint laxbreak:true*/
     function getPart() {
-        return String(struct[this.p]);
+        var group = this.g;
+        return ! group || struct[group]
+            ? this.c || String(struct[this.p])
+            : "";
     }
 
     /*jshint boss:true*/
     var result = [],
-        bEscape = false,
         bReplace = true,
+        group = null,
+        groupList = [],
         nP = 0,
         specialChar = {
             d: ["day", 4],
@@ -173,21 +183,16 @@ function format(nDuration, sFormat) {
             s: ["second", 1]
         },
         sSlash = "\\",
-        nI, nL, sChar, part, struct;
+        nI, nK, nL, sChar, part, struct;
     
     if (! sFormat) {
         sFormat = "hh:mm:ss";
     }
     // Scan format string and find positions for replacement
-    for (nI = 0, nL = sFormat.length; nI < nL; nI++) {
+    for (nI = 0, nL = sFormat.length, nK = nL - 1; nI < nL; nI++) {
         sChar = sFormat.charAt(nI);
-        // Character should not be processed
-        if (bEscape) {
-            result.push(sChar);
-            bEscape = false;
-        }
         // Special character
-        else if (bReplace && sChar in specialChar) {
+        if (bReplace && sChar in specialChar) {
             struct = specialChar[sChar];
             // Save value that will be replaced:
             // 2 or more characters
@@ -199,7 +204,7 @@ function format(nDuration, sFormat) {
             else {
                 part = struct[0];
             }
-            result.push({p: part, toString: getPart});
+            result.push({p: part, g: group, toString: getPart});
             // Change quantity of time duration parts if it is necessary
             if (struct[1] > nP) {
                 nP = struct[1];
@@ -213,13 +218,32 @@ function format(nDuration, sFormat) {
         else if (! bReplace && sChar === "]") {
             bReplace = true;
         }
-        // Skip special processing for the next character (escaping)
-        else if (sChar === sSlash) {
-            bEscape = true;
+        // Start of a group
+        else if (bReplace && sChar === "(" && sFormat.charAt(nI + 2) === ":"
+                && (part = sFormat.charAt(nI + 1).match(/d|h|m|s/))) {
+            if (group) {
+                groupList.push(group);
+            }
+            group = specialChar[part[0]][0];
+            nI += 2;
         }
-        // Any other character
-        else {
-            result.push(sChar);
+        // End of a group
+        else if (bReplace && group && sChar === ")") {
+            group = groupList.length
+                ? groupList.pop()
+                : null;
+        }
+        // Any other character or escaped character
+        else if (sChar !== sSlash || nI < nK) {
+            // Escaped character
+            if (sChar === sSlash) {
+                sChar = sFormat.charAt(++nI);
+            }
+            result.push(
+                group
+                    ? {g: group, c: sChar, toString: getPart}
+                    : sChar
+            );
         }
     }
     // Get parts of duration if it is necessary

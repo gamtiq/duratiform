@@ -324,6 +324,28 @@ describe("duratiform", function() {
                     .equal("Строка без специальных символов");
                 expect( format(365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond, "дни: d, часы: h, минуты: m, секунды: s") )
                     .equal("дни: 365, часы: 23, минуты: 59, секунды: 59");
+                expect( format(3 * nDay + 16 * nHour + 4 * nMinute + 27 * nSecond, "(d:[days - ]d;)(h: [hours - ]h;)(m: [minutes - ]mm;)(s: [seconds - ]ss)") )
+                    .equal("days - 3; hours - 16; minutes - 04; seconds - 27");
+                expect( format(1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond, "(h:h [hour(s) ])(m:mm[ minute(s)])") )
+                    .equal("28 hour(s) 08 minute(s)");
+                expect( format(1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond, "(m:(h:h [hour(s) ])mm[ minute(s)])") )
+                    .equal("28 hour(s) 08 minute(s)");
+                expect( format(49 * nMinute + 6 * nSecond, "(h:h [hour(s) ])(m:mm[ minute(s)])") )
+                    .equal("49 minute(s)");
+                expect( format(49 * nMinute + 6 * nSecond, "(m:(h:h [hour(s) ])mm[ minute(s)])") )
+                    .equal("49 minute(s)");
+                expect( format(49 * nMinute + 6 * nSecond, "(m\\: (s\\: ))") )
+                    .equal("(49: (6: ))");
+                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(d:d:)(h:h:)(m:mm:)(s:ss)") )
+                    .equal("15:03:57");
+                expect( format(3 * nMinute + 57 * nSecond, "(d:d:)(h:h:)(m:mm:)(s:ss)") )
+                    .equal("03:57");
+                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(h:h:(m:mm:(s:ss") )
+                    .equal("15:03:57");
+                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(h:h:(m:mm:)(s:ss") )
+                    .equal("15:03:57");
+                expect( format(39 * nMinute + 3 * nSecond, "(d:[days - ]d; )(h:[hours - ]h; )(m:[(m:)inutes - ]mm(m:(m:)!); )(s:[second(s:) - ]ss(m:(s:(h:=).).).)") )
+                    .equal("(m:)inutes - 39!; second(s:) - 03...");
             });
         });
     });
