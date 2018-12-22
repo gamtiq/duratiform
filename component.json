@@ -2,7 +2,7 @@
   "name": "duratiform",
   "repository": "gamtiq/duratiform",
   "description": "Utility to separate into parts and to format time duration in milliseconds",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "keywords": [
     "time",
     "duration",
@@ -10,6 +10,8 @@
     "separate",
     "decompose",
     "format",
+    "string",
+    "stringify",
     "millisecond"
   ],
   "dependencies": {},

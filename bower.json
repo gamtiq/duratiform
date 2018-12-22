@@ -4,7 +4,7 @@
     "dist/duratiform.js", 
     "dist/duratiform.min.js"
   ],
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/gamtiq/duratiform",
   "authors": [
     "Denis Sikuler"
@@ -17,6 +17,8 @@
     "separate",
     "decompose",
     "format",
+    "string",
+    "stringify",
     "millisecond"
   ],
   "license": "MIT",

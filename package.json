@@ -1,8 +1,9 @@
 {
   "name": "duratiform",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Utility to separate into parts and to format time duration in milliseconds",
   "main": "duratiform.js",
+  "types": "./index.d.ts",
   "scripts": {
     "test": "grunt test"
   },
@@ -17,6 +18,8 @@
     "separate",
     "decompose",
     "format",
+    "string",
+    "stringify",
     "millisecond"
   ],
   "author": "Denis Sikuler",
