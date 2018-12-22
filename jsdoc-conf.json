@@ -1,0 +1,9 @@
+{
+    "templates": {
+        "outputSourceFiles": true,
+        "systemName": "duratiform",
+        "copyright": "Copyright (c) 2013-2018 Denis Sikuler",
+        "theme": "spacelab",
+        "linenums": true
+    }
+}

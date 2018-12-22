@@ -85,6 +85,7 @@
  * @alias module:duratiform.divide
  */
 function divide(nDuration, nPartQty, bAddStrings) {
+    var result = {};
     
     function getPart(sField, nDivisor) {
         var nV;
@@ -100,7 +101,6 @@ function divide(nDuration, nPartQty, bAddStrings) {
         }
     }
     
-    var result = {};
     // Convert duration to seconds
     nDuration = nDuration * 0.001;
     if (! nPartQty) {
@@ -153,7 +153,7 @@ function divide(nDuration, nPartQty, bAddStrings) {
  *      <li><code>(x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
  *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
  *              that will be included in the result only when the corresponding part of duration is present (above 0)
- *      <li><code>)</code> - end of previous group; thus in format <code>(h:h:)mm</code> hours part
+ *      <li><code>)</code> - end of previous group; thus by using format <code>(h:h:)mm:ss</code> hours part
  *              will be in result only when duration is greater than 60 minutes
  *      </ul>
  *      All other characters will be included into the result as is.
@@ -162,15 +162,7 @@ function divide(nDuration, nPartQty, bAddStrings) {
  * @alias module:duratiform.format
  */
 function format(nDuration, sFormat) {
-    /*jshint laxbreak:true*/
-    function getPart() {
-        var group = this.g;
-        return ! group || struct[group]
-            ? this.c || String(struct[this.p])
-            : "";
-    }
-
-    /*jshint boss:true*/
+    /*jshint boss:true, laxbreak:true*/
     var result = [],
         bReplace = true,
         group = null,
@@ -185,6 +177,13 @@ function format(nDuration, sFormat) {
         sSlash = "\\",
         nI, nK, nL, sChar, part, struct;
     
+    function getPart() {
+        var group = this.g;
+        return ! group || struct[group]
+            ? this.c || String(struct[this.p])
+            : "";
+    }
+
     if (! sFormat) {
         sFormat = "hh:mm:ss";
     }
