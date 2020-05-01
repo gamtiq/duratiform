@@ -14,13 +14,21 @@
   "keywords": [
     "time",
     "duration",
+    "period",
+    "interval",
+    "span",
     "divide",
     "separate",
     "decompose",
+    "parse",
+    "part",
+    "partition",
     "format",
     "string",
     "stringify",
-    "millisecond"
+    "millisecond",
+    "milliseconds",
+    "ms"
   ],
   "author": "Denis Sikuler",
   "license": "MIT",
@@ -35,6 +43,7 @@
     "grunt-jsdoc": "2.4.1",
     "grunt-mocha-cli": "6.0.0",
     "grunt-umd": "3.0.0",
+    "husky": "4.2.5",
     "ink-docstrap": "1.3.2"
   }
 }

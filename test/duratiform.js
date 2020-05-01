@@ -7,7 +7,7 @@ describe("duratiform", function() {
         nHour = 60 * nMinute,
         nDay = 24 * nHour,
         lib, expect;
-    
+
     // node
     if (typeof chai === "undefined") {
         lib = require("../duratiform");
@@ -18,8 +18,8 @@ describe("duratiform", function() {
         lib = window.duratiform;
         expect = chai.expect;
     }
-    
-    
+
+
     describe(".divide", function() {
         var divide = lib.divide;
 
@@ -121,7 +121,7 @@ describe("duratiform", function() {
             });
         });
     });
-    
+
     describe(".format", function() {
         var format = lib.format;
 
@@ -287,65 +287,235 @@ describe("duratiform", function() {
                 expect( format(22 * nDay + 7 * nHour + 25 * nSecond, "dd") )
                     .equal("22");
             });
-            it("should return correct result string", function() {
-                expect( format(3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond, "\\day\\s: dd, \\hour\\s: hh, \\minute\\s: mm, \\secon\\d\\s: ss") )
-                    .equal("days: 03, hours: 05, minutes: 46, seconds: 37");
-                expect( format(3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond, "[days]: dd, [hours]: hh, [minutes]: mm, [seconds]: ss") )
-                    .equal("days: 03, hours: 05, minutes: 46, seconds: 37");
-                expect( format(3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond, "[days: dd], [hours: hh], [minutes: mm], [seconds: ss]") )
-                    .equal("days: dd, hours: hh, minutes: mm, seconds: ss");
-                expect( format(3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond, "[days: dd, hours: hh, minutes: mm, seconds: ss") )
-                    .equal("days: dd, hours: hh, minutes: mm, seconds: ss");
-                expect( format(14 * nDay + 7 * nHour + 9 * nMinute + 28 * nSecond, "\\day\\s: d, \\hour\\s: h, \\minute\\s: m, \\secon\\d\\s: s") )
-                    .equal("days: 14, hours: 7, minutes: 9, seconds: 28");
-                expect( format(3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond, "Day\\s: dd, Hour\\s: hh, Minute\\s: mm, Secon\\d\\s: ss") )
-                    .equal("Days: 03, Hours: 05, Minutes: 46, Seconds: 37");
-                expect( format(23 * nDay + 8 * nHour + 7 * nMinute + 36 * nSecond, "DAYS: d, HOURS: h, MINUTES: m, SECONDS: s") )
-                    .equal("DAYS: 23, HOURS: 8, MINUTES: 7, SECONDS: 36");
-                expect( format(7 * nDay + 3 * nHour + 41 * nMinute + 9 * nSecond, "-d:hh:mm:ss") )
-                    .equal("-7:03:41:09");
-                expect( format(13 * nHour + 8 * nMinute + 5 * nSecond, "\\[\\dur: h:m:ss\\]") )
-                    .equal("[dur: 13:8:05]");
-                expect( format(35 * nDay + 16 * nHour + 2 * nMinute + 8 * nSecond, "d-h-m-s") )
-                    .equal("35-16-2-8");
-                expect( format(8 * nDay + 15 * nHour + 4 * nMinute + 52 * nSecond, "dd\\\\hh\\\\mm\\\\ss") )
-                    .equal("08\\15\\04\\52");
-                expect( format(2 * nDay + 22 * nHour + 9 * nMinute + 56 * nSecond, "\\d-h-m-s") )
-                    .equal("d-70-9-56");
-                expect( format(nDay + 5 * nHour + 15 * nMinute, "[[days\\]]: -, [hours]: h, [seconds]: ss") )
-                    .equal("[days]: -, hours: 29, seconds: 00");
-                expect( format(7 * nDay + 23 * nHour + 10 * nMinute, "[[days]: d]: dd, [hours]: h, minute: s") )
-                    .equal("[days: 7]: 07, hours: 23, 10inute: 0");
-                expect( format(7 * nDay + 23 * nHour + 10 * nMinute, "[[days\\]: d]: dd, [hours]: h, \\minute: s") )
-                    .equal("[days]: d: 07, hours: 23, minute: 0");
-                expect( format(nDay, "- [hours]: h, [hours]: h, [hours]: h\\h\\") )
-                    .equal("- hours: 24, hours: 24, hours: 24h");
-                expect( format(365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond, "Строка без специальных символов") )
-                    .equal("Строка без специальных символов");
-                expect( format(365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond, "дни: d, часы: h, минуты: m, секунды: s") )
-                    .equal("дни: 365, часы: 23, минуты: 59, секунды: 59");
-                expect( format(3 * nDay + 16 * nHour + 4 * nMinute + 27 * nSecond, "(d:[days - ]d;)(h: [hours - ]h;)(m: [minutes - ]mm;)(s: [seconds - ]ss)") )
-                    .equal("days - 3; hours - 16; minutes - 04; seconds - 27");
-                expect( format(1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond, "(h:h [hour(s) ])(m:mm[ minute(s)])") )
-                    .equal("28 hour(s) 08 minute(s)");
-                expect( format(1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond, "(m:(h:h [hour(s) ])mm[ minute(s)])") )
-                    .equal("28 hour(s) 08 minute(s)");
-                expect( format(49 * nMinute + 6 * nSecond, "(h:h [hour(s) ])(m:mm[ minute(s)])") )
-                    .equal("49 minute(s)");
-                expect( format(49 * nMinute + 6 * nSecond, "(m:(h:h [hour(s) ])mm[ minute(s)])") )
-                    .equal("49 minute(s)");
-                expect( format(49 * nMinute + 6 * nSecond, "(m\\: (s\\: ))") )
-                    .equal("(49: (6: ))");
-                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(d:d:)(h:h:)(m:mm:)(s:ss)") )
-                    .equal("15:03:57");
-                expect( format(3 * nMinute + 57 * nSecond, "(d:d:)(h:h:)(m:mm:)(s:ss)") )
-                    .equal("03:57");
-                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(h:h:(m:mm:(s:ss") )
-                    .equal("15:03:57");
-                expect( format(15 * nHour + 3 * nMinute + 57 * nSecond, "(h:h:(m:mm:)(s:ss") )
-                    .equal("15:03:57");
-                expect( format(39 * nMinute + 3 * nSecond, "(d:[days - ]d; )(h:[hours - ]h; )(m:[(m:)inutes - ]mm(m:(m:)!); )(s:[second(s:) - ]ss(m:(s:(h:=).).).)") )
-                    .equal("(m:)inutes - 39!; second(s:) - 03...");
+            describe("should return correct result string", function() {
+                var testList = [
+                    {
+                        duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
+                        format: "\\day\\s: dd, \\hour\\s: hh, \\minute\\s: mm, \\secon\\d\\s: ss",
+                        result: "days: 03, hours: 05, minutes: 46, seconds: 37"
+                    },
+                    {
+                        duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
+                        format: "[days]: dd, [hours]: hh, [minutes]: mm, [seconds]: ss",
+                        result: "days: 03, hours: 05, minutes: 46, seconds: 37"
+                    },
+                    {
+                        duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
+                        format: "[days: dd], [hours: hh], [minutes: mm], [seconds: ss]",
+                        result: "days: dd, hours: hh, minutes: mm, seconds: ss"
+                    },
+                    {
+                        duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
+                        format: "[days: dd, hours: hh, minutes: mm, seconds: ss",
+                        result: "days: dd, hours: hh, minutes: mm, seconds: ss"
+                    },
+                    {
+                        duration: 14 * nDay + 7 * nHour + 9 * nMinute + 28 * nSecond,
+                        format: "\\day\\s: d, \\hour\\s: h, \\minute\\s: m, \\secon\\d\\s: s",
+                        result: "days: 14, hours: 7, minutes: 9, seconds: 28"
+                    },
+                    {
+                        duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
+                        format: "Day\\s: dd, Hour\\s: hh, Minute\\s: mm, Secon\\d\\s: ss",
+                        result: "Days: 03, Hours: 05, Minutes: 46, Seconds: 37"
+                    },
+                    {
+                        duration: 23 * nDay + 8 * nHour + 7 * nMinute + 36 * nSecond,
+                        format: "DAYS: d, HOURS: h, MINUTES: m, SECONDS: s",
+                        result: "DAYS: 23, HOURS: 8, MINUTES: 7, SECONDS: 36"
+                    },
+                    {
+                        duration: 7 * nDay + 3 * nHour + 41 * nMinute + 9 * nSecond,
+                        format: "-d:hh:mm:ss",
+                        result: "-7:03:41:09"
+                    },
+                    {
+                        duration: 13 * nHour + 8 * nMinute + 5 * nSecond,
+                        format: "\\[\\dur: h:m:ss\\]",
+                        result: "[dur: 13:8:05]"
+                    },
+                    {
+                        duration: 35 * nDay + 16 * nHour + 2 * nMinute + 8 * nSecond,
+                        format: "d-h-m-s",
+                        result: "35-16-2-8"
+                    },
+                    {
+                        duration: 8 * nDay + 15 * nHour + 4 * nMinute + 52 * nSecond,
+                        format: "dd\\\\hh\\\\mm\\\\ss",
+                        result: "08\\15\\04\\52"
+                    },
+                    {
+                        duration: 2 * nDay + 22 * nHour + 9 * nMinute + 56 * nSecond,
+                        format: "\\d-h-m-s",
+                        result: "d-70-9-56"
+                    },
+                    {
+                        duration: nDay + 5 * nHour + 15 * nMinute,
+                        format: "[[days\\]]: -, [hours]: h, [seconds]: ss",
+                        result: "[days]: -, hours: 29, seconds: 00"
+                    },
+                    {
+                        duration: 7 * nDay + 23 * nHour + 10 * nMinute,
+                        format: "[[days]: d]: dd, [hours]: h, minute: s",
+                        result: "[days: 7]: 07, hours: 23, 10inute: 0"
+                    },
+                    {
+                        duration: 7 * nDay + 23 * nHour + 10 * nMinute,
+                        format: "[[days\\]: d]: dd, [hours]: h, \\minute: s",
+                        result: "[days]: d: 07, hours: 23, minute: 0"
+                    },
+                    {
+                        duration: nDay,
+                        format: "- [hours]: h, [hours]: h, [hours]: h\\h\\",
+                        result: "- hours: 24, hours: 24, hours: 24h"
+                    },
+                    {
+                        duration: 365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond,
+                        format: "Строка без специальных символов",
+                        result: "Строка без специальных символов"
+                    },
+                    {
+                        duration: 365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond,
+                        format: "дни: d, часы: h, минуты: m, секунды: s",
+                        result: "дни: 365, часы: 23, минуты: 59, секунды: 59"
+                    },
+                    {
+                        duration: 3 * nDay + 16 * nHour + 4 * nMinute + 27 * nSecond,
+                        format: "(d:[days - ]d;)(h: [hours - ]h;)(m: [minutes - ]mm;)(s: [seconds - ]ss)",
+                        result: "days - 3; hours - 16; minutes - 04; seconds - 27"
+                    },
+                    {
+                        duration: 1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond,
+                        format: "(h:h [hour(s) ])(m:mm[ minute(s)])",
+                        result: "28 hour(s) 08 minute(s)"
+                    },
+                    {
+                        duration: 1 * nDay + 4 * nHour + 8 * nMinute + 41 * nSecond,
+                        format: "(m:(h:h [hour(s) ])mm[ minute(s)])",
+                        result: "28 hour(s) 08 minute(s)"
+                    },
+                    {
+                        duration: 49 * nMinute + 6 * nSecond,
+                        format: "(h:h [hour(s) ])(m:mm[ minute(s)])",
+                        result: "49 minute(s)"
+                    },
+                    {
+                        duration: 49 * nMinute + 6 * nSecond,
+                        format: "(m:(h:h [hour(s) ])mm[ minute(s)])",
+                        result: "49 minute(s)"
+                    },
+                    {
+                        duration: 49 * nMinute + 6 * nSecond,
+                        format: "(m\\: (s\\: ))",
+                        result: "(49: (6: ))"
+                    },
+                    {
+                        duration: 15 * nHour + 3 * nMinute + 57 * nSecond,
+                        format: "(d:d:)(h:h:)(m:mm:)(s:ss)",
+                        result: "15:03:57"
+                    },
+                    {
+                        duration: 3 * nMinute + 57 * nSecond,
+                        format: "(d:d:)(h:h:)(m:mm:)(s:ss)",
+                        result: "03:57"
+                    },
+                    {
+                        duration: 15 * nHour + 3 * nMinute + 57 * nSecond,
+                        format: "(h:h:(m:mm:(s:ss",
+                        result: "15:03:57"
+                    },
+                    {
+                        duration: 15 * nHour + 3 * nMinute + 57 * nSecond,
+                        format: "(h:h:(m:mm:)(s:ss",
+                        result: "15:03:57"
+                    },
+                    {
+                        duration: 39 * nMinute + 3 * nSecond,
+                        format: "(d:[days - ]d; )(h:[hours - ]h; )(m:[(m:)inutes - ]mm(m:(m:)!); )(s:[second(s:) - ]ss(m:(s:(h:=).).).)",
+                        result: "(m:)inutes - 39!; second(s:) - 03..."
+                    },
+                    {
+                        duration: nDay,
+                        format: "Ti\\meout: (h:h \\hr)(m: m \\min)",
+                        result: "Timeout: 24 hr"
+                    },
+                    {
+                        duration: 5 * nHour + 47 * nSecond,
+                        format: "Duration:(h: h \\hr)(m: mm \\min)",
+                        result: "Duration: 5 hr"
+                    },
+                    {
+                        duration: 5 * nHour + 8 * nMinute + 26 * nSecond,
+                        format: "Duration:(h: h \\hr)(m: mm \\min)",
+                        result: "Duration: 5 hr 08 min"
+                    },
+                    {
+                        duration: 8 * nMinute + 59 * nSecond + 999,
+                        format: "Duration:(h: h \\hr)(m: mm \\min)",
+                        result: "Duration: 08 min"
+                    },
+                    {
+                        duration: 4 * nHour + 8 * nMinute + 9 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min]))",
+                        result: "Duration: 4 hr 08 min"
+                    },
+                    {
+                        duration: 4 * nHour + 9 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min))",
+                        result: "Duration: 4 hr"
+                    },
+                    {
+                        duration: 2 * nDay + 4 * nHour + 9 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min))",
+                        result: "Duration: 52 hr"
+                    },
+                    {
+                        duration: 4 * nHour + 9 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min])(s: ss [sec]))",
+                        result: "Duration: 4 hr 09 sec"
+                    },
+                    {
+                        duration: 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min))",
+                        result: "Duration:"
+                    },
+                    {
+                        duration: 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min)(s: ss \\sec))",
+                        result: "Duration:"
+                    },
+                    {
+                        duration: 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))",
+                        result: "Duration:"
+                    },
+                    {
+                        duration: 7 * nHour + 53 * nMinute + 2 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))",
+                        result: "Duration: 7 hr 53 min 02 sec"
+                    },
+                    {
+                        duration: 7 * nHour + 12 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))",
+                        result: "Duration: 7 hr"
+                    },
+                    {
+                        duration: 7 * nHour + 5 * nMinute,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))",
+                        result: "Duration: 7 hr 05 min"
+                    }
+                ];
+
+                function doTest(nIndex, testItem) {
+                    (testItem.only ? it.only : it)(nIndex + ": " + testItem.duration + ", " + testItem.format + " ---> " + testItem.result, function() {
+                        expect( format(testItem.duration, testItem.format) )
+                            .equal( testItem.result );
+                    });
+                }
+
+                for (var nI = 0, nL = testList.length; nI < nL; nI++) {
+                    doTest(nI, testList[nI]);
+                }
             });
         });
     });
