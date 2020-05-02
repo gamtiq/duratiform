@@ -153,6 +153,9 @@ function divide(nDuration, nPartQty, bAddStrings) {
  *      <li><code>(x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
  *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
  *              that will be included in the result only when the corresponding part of duration is present (above 0)
+ *      <li><code>(!x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
+ *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
+ *              that will be included in the result only when the corresponding part of duration is not present (equals to 0)
  *      <li><code>)</code> - end of previous group; thus by using format <code>(h:h:)mm:ss</code> hours part
  *              will be in result only when duration is greater than 60 minutes
  *      </ul>
@@ -175,7 +178,7 @@ function format(nDuration, sFormat) {
             s: ["second", 1]
         },
         sSlash = "\\",
-        nI, nK, nL, sChar, part, struct;
+        bNegative, nI, nK, nL, sChar, sNextChar, part, struct;
 
     function getGroupList() {
         return group && groupList.concat(group);
@@ -183,10 +186,12 @@ function format(nDuration, sFormat) {
 
     function getPart() {
         var groupSet = this.g,
-            nEnd, nNum;
+            bNot, nEnd, nNum, sGroupExpr;
         if (groupSet) {
             for (nNum = 0, nEnd = groupSet.length; nNum < nEnd; nNum++) {
-                if (! struct[groupSet[nNum]]) {
+                sGroupExpr = groupSet[nNum];
+                bNot = sGroupExpr.charAt(0) === "!";
+                if ((bNot && struct[sGroupExpr.substring(1)]) || (! bNot && ! struct[sGroupExpr])) {
                     groupSet = false;
                     break;
                 }
@@ -206,12 +211,13 @@ function format(nDuration, sFormat) {
     // Scan format string and find positions for replacement
     for (nI = 0, nL = sFormat.length, nK = nL - 1; nI < nL; nI++) {
         sChar = sFormat.charAt(nI);
+        sNextChar = sFormat.charAt(nI + 1);
         // Special character
         if (bReplace && sChar in specialChar) {
             struct = specialChar[sChar];
             // Save value that will be replaced:
             // 2 or more characters
-            if (sFormat.charAt(nI + 1) === sChar) {
+            if (sNextChar === sChar) {
                 part = struct[0] + "2";
                 nI++;
             }
@@ -234,13 +240,15 @@ function format(nDuration, sFormat) {
             bReplace = true;
         }
         // Start of a group
-        else if (bReplace && sChar === "(" && sFormat.charAt(nI + 2) === ":"
-                && (part = sFormat.charAt(nI + 1).match(/d|h|m|s/))) {
+        else if (bReplace && sChar === "("
+                && ((bNegative = sNextChar === "!") || true)
+                && sFormat.charAt(nI + (bNegative ? 3 : 2)) === ":"
+                && (part = (bNegative ? sFormat.charAt(nI + 2) : sNextChar).match(/d|h|m|s/))) {
             if (group) {
                 groupList.push(group);
             }
-            group = specialChar[part[0]][0];
-            nI += 2;
+            group = (bNegative ? "!" : "") + specialChar[part[0]][0];
+            nI += bNegative ? 3 : 2;
         }
         // End of a group
         else if (bReplace && group && sChar === ")") {
@@ -252,7 +260,8 @@ function format(nDuration, sFormat) {
         else if (sChar !== sSlash || nI < nK) {
             // Escaped character
             if (sChar === sSlash) {
-                sChar = sFormat.charAt(++nI);
+                sChar = sNextChar;
+                nI++;
             }
             result.push(
                 group

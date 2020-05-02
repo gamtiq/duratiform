@@ -14,12 +14,12 @@
     }
 }(this, function(require, exports, module) {
 /**
- * @module duratiform 
+ * @module duratiform
  */
 
 /**
  * Separate time duration into parts.
- * 
+ *
  * @param {Integer} nDuration
  *      Time duration in milliseconds.
  * @param {Integer} [nPartQty]
@@ -33,7 +33,7 @@
  *      </ul>
  * @param {Boolean} [bAddStrings]
  *      Specifies whether additional string fields should be included into result object.
- *      An additional field represents a value of calculated part that is converted into string 
+ *      An additional field represents a value of calculated part that is converted into string
  *      and is prefixed with "0" if it is necessary (i.e. values from 0 to 9 are converted to "00"-"09").
  *      The default value is <code>false</code>.
  * @return {Object}
@@ -53,7 +53,7 @@
  *              <td>day2</td>
  *              <td>String</td>
  *              <td>
- *                  Quantity of full days. String contains at least 2 characters. 
+ *                  Quantity of full days. String contains at least 2 characters.
  *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
  *              </td>
  *          </tr>
@@ -66,7 +66,7 @@
  *              <td>hour2</td>
  *              <td>String</td>
  *              <td>
- *                  Quantity of full hours. String contains at least 2 characters. 
+ *                  Quantity of full hours. String contains at least 2 characters.
  *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
  *              </td>
  *          </tr>
@@ -79,7 +79,7 @@
  *              <td>minute2</td>
  *              <td>String</td>
  *              <td>
- *                  Quantity of full minutes. String contains at least 2 characters. 
+ *                  Quantity of full minutes. String contains at least 2 characters.
  *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
  *              </td>
  *          </tr>
@@ -92,7 +92,7 @@
  *              <td>second2</td>
  *              <td>String</td>
  *              <td>
- *                  Quantity of full seconds. String contains at least 2 characters. 
+ *                  Quantity of full seconds. String contains at least 2 characters.
  *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
  *              </td>
  *          </tr>
@@ -101,7 +101,7 @@
  */
 function divide(nDuration, nPartQty, bAddStrings) {
     var result = {};
-    
+
     function getPart(sField, nDivisor) {
         var nV;
         if (nDuration >= nDivisor) {
@@ -115,13 +115,13 @@ function divide(nDuration, nPartQty, bAddStrings) {
             result[sField + "2"] = nV < 10 ? "0" + nV : String(nV);
         }
     }
-    
+
     // Convert duration to seconds
     nDuration = nDuration * 0.001;
     if (! nPartQty) {
         nPartQty = 3;
     }
-    
+
     // Extract days
     if (nPartQty > 3) {
         getPart("day", 86400);
@@ -143,7 +143,7 @@ function divide(nDuration, nPartQty, bAddStrings) {
 
 /**
  * Convert time duration into string.
- * 
+ *
  * @param {Integer} nDuration
  *      Time duration in milliseconds.
  * @param {String} [sFormat]
@@ -168,6 +168,9 @@ function divide(nDuration, nPartQty, bAddStrings) {
  *      <li><code>(x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
  *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
  *              that will be included in the result only when the corresponding part of duration is present (above 0)
+ *      <li><code>(!x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
+ *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
+ *              that will be included in the result only when the corresponding part of duration is not present (equals to 0)
  *      <li><code>)</code> - end of previous group; thus by using format <code>(h:h:)mm:ss</code> hours part
  *              will be in result only when duration is greater than 60 minutes
  *      </ul>
@@ -190,11 +193,29 @@ function format(nDuration, sFormat) {
             s: ["second", 1]
         },
         sSlash = "\\",
-        nI, nK, nL, sChar, part, struct;
-    
+        bNegative, nI, nK, nL, sChar, sNextChar, part, struct;
+
+    function getGroupList() {
+        return group && groupList.concat(group);
+    }
+
     function getPart() {
-        var group = this.g;
-        return ! group || struct[group]
+        var groupSet = this.g,
+            bNot, nEnd, nNum, sGroupExpr;
+        if (groupSet) {
+            for (nNum = 0, nEnd = groupSet.length; nNum < nEnd; nNum++) {
+                sGroupExpr = groupSet[nNum];
+                bNot = sGroupExpr.charAt(0) === "!";
+                if ((bNot && struct[sGroupExpr.substring(1)]) || (! bNot && ! struct[sGroupExpr])) {
+                    groupSet = false;
+                    break;
+                }
+            }
+        }
+        else {
+            groupSet = true;
+        }
+        return groupSet
             ? this.c || String(struct[this.p])
             : "";
     }
@@ -205,12 +226,13 @@ function format(nDuration, sFormat) {
     // Scan format string and find positions for replacement
     for (nI = 0, nL = sFormat.length, nK = nL - 1; nI < nL; nI++) {
         sChar = sFormat.charAt(nI);
+        sNextChar = sFormat.charAt(nI + 1);
         // Special character
         if (bReplace && sChar in specialChar) {
             struct = specialChar[sChar];
             // Save value that will be replaced:
             // 2 or more characters
-            if (sFormat.charAt(nI + 1) === sChar) {
+            if (sNextChar === sChar) {
                 part = struct[0] + "2";
                 nI++;
             }
@@ -218,7 +240,7 @@ function format(nDuration, sFormat) {
             else {
                 part = struct[0];
             }
-            result.push({p: part, g: group, toString: getPart});
+            result.push({p: part, g: getGroupList(), toString: getPart});
             // Change quantity of time duration parts if it is necessary
             if (struct[1] > nP) {
                 nP = struct[1];
@@ -233,13 +255,15 @@ function format(nDuration, sFormat) {
             bReplace = true;
         }
         // Start of a group
-        else if (bReplace && sChar === "(" && sFormat.charAt(nI + 2) === ":"
-                && (part = sFormat.charAt(nI + 1).match(/d|h|m|s/))) {
+        else if (bReplace && sChar === "("
+                && ((bNegative = sNextChar === "!") || true)
+                && sFormat.charAt(nI + (bNegative ? 3 : 2)) === ":"
+                && (part = (bNegative ? sFormat.charAt(nI + 2) : sNextChar).match(/d|h|m|s/))) {
             if (group) {
                 groupList.push(group);
             }
-            group = specialChar[part[0]][0];
-            nI += 2;
+            group = (bNegative ? "!" : "") + specialChar[part[0]][0];
+            nI += bNegative ? 3 : 2;
         }
         // End of a group
         else if (bReplace && group && sChar === ")") {
@@ -251,11 +275,12 @@ function format(nDuration, sFormat) {
         else if (sChar !== sSlash || nI < nK) {
             // Escaped character
             if (sChar === sSlash) {
-                sChar = sFormat.charAt(++nI);
+                sChar = sNextChar;
+                nI++;
             }
             result.push(
                 group
-                    ? {g: group, c: sChar, toString: getPart}
+                    ? {g: getGroupList(), c: sChar, toString: getPart}
                     : sChar
             );
         }

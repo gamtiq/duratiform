@@ -503,6 +503,126 @@ describe("duratiform", function() {
                         duration: 7 * nHour + 5 * nMinute,
                         format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))",
                         result: "Duration: 7 hr 05 min"
+                    },
+                    {
+                        duration: 3 * nMinute,
+                        format: "[!hours (h:h) - ](h:h); [(!m:) ](!h:m)",
+                        result: "!hours (h:h) - ; (!m:) 3"
+                    },
+                    {
+                        duration: 2 * nHour + 3 * nMinute + 59 * nSecond,
+                        format: "[!hours (h:h) - ](h:h); [(!m:) ](!h:m)",
+                        result: "!hours (h:h) - 2; (!m:) "
+                    },
+                    {
+                        duration: 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min))(!h: m \\min)",
+                        result: "Duration: 53 min"
+                    },
+                    {
+                        duration: 7 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min]))(!h: m [min])",
+                        result: "Duration: 7 min"
+                    },
+                    {
+                        duration: 4 * nHour + 7 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min]))(!h: m [min])",
+                        result: "Duration: 4 hr 07 min"
+                    },
+                    {
+                        duration: 6 * nHour + 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))(!h: (m:m \\min(s: ss \\sec))(!m:s \\sec))",
+                        result: "Duration: 6 hr 53 min 27 sec"
+                    },
+                    {
+                        duration: 19 * nHour + 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))",
+                        result: "Duration: 19 hr 53 min 27 sec"
+                    },
+                    {
+                        duration: 19 * nHour + 2 * nMinute + 5 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))",
+                        result: "Duration: 19 hr 02 min 05 sec"
+                    },
+                    {
+                        duration: 53 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))(!h: (m:m \\min(s: ss \\sec))(!m:s \\sec))",
+                        result: "Duration: 53 min 27 sec"
+                    },
+                    {
+                        duration: 8 * nMinute + 27 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))",
+                        result: "Duration: 8 min 27 sec"
+                    },
+                    {
+                        duration: 8 * nMinute + 3 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))",
+                        result: "Duration: 8 min 03 sec"
+                    },
+                    {
+                        duration: 49 * nSecond,
+                        format: "Duration:(h: h \\hr(m: mm \\min(s: ss \\sec)))(!h: (m:m \\min(s: ss \\sec))(!m:s \\sec))",
+                        result: "Duration: 49 sec"
+                    },
+                    {
+                        duration: 9 * nSecond,
+                        format: "Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))",
+                        result: "Duration: 9 sec"
+                    },
+                    {
+                        duration: 33 * nDay + 23 * nHour + 48 * nMinute + 15 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "33 day(s) 23 hour(s) 48 minute(s) 15 second(s)"
+                    },
+                    {
+                        duration: 33 * nDay + 48 * nMinute + 15 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "33 day(s) 48 minute(s) 15 second(s)"
+                    },
+                    {
+                        duration: 33 * nDay + 23 * nHour + 15 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "33 day(s) 23 hour(s) 15 second(s)"
+                    },
+                    {
+                        duration: 5 * nDay + 3 * nHour + 8 * nMinute + 1 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "5 day(s) 3 hour(s) 8 minute(s) 1 second(s)"
+                    },
+                    {
+                        duration: 5 * nDay + 3 * nHour,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "5 day(s) 3 hour(s)"
+                    },
+                    {
+                        duration: 5 * nDay + 8 * nMinute,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "5 day(s) 8 minute(s)"
+                    },
+                    {
+                        duration: 5 * nDay + 1 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d: (h:h:mm:ss)(!h:m:ss))",
+                        result: "5 day(s) 1 second(s)"
+                    },
+                    {
+                        duration: 23 * nHour + 48 * nMinute + 15 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d:(h:h:mm:ss)(!h:m:ss))",
+                        result: "23:48:15"
+                    },
+                    {
+                        duration: 8 * nHour + 2 * nMinute + 5 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d:(h:h:mm:ss)(!h:m:ss))",
+                        result: "8:02:05"
+                    },
+                    {
+                        duration: 48 * nMinute + 15 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d:(h:h:mm:ss)(!h:m:ss))",
+                        result: "48:15"
+                    },
+                    {
+                        duration: 2 * nMinute + 5 * nSecond,
+                        format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d:(h:h:mm:ss)(!h:m:ss))",
+                        result: "2:05"
                     }
                 ];
 

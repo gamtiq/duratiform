@@ -1,4 +1,9 @@
 {
+    "opts": {
+        "destination": "doc",
+        "readme": "README.md",
+        "template": "node_modules/ink-docstrap/template"
+    },
     "templates": {
         "outputSourceFiles": true,
         "systemName": "duratiform",
