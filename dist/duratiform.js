@@ -30,6 +30,7 @@
  *      <li><code>2</code> - return quantity of minutes and seconds (<code>minute</code> and <code>second</code> fields)
  *      <li><code>3</code> - return quantity of hours, minutes and seconds (<code>hour</code>, <code>minute</code> and <code>second</code> fields)
  *      <li><code>4</code> - return quantity of days, hours, minutes and seconds (<code>day</code>, <code>hour</code>, <code>minute</code> and <code>second</code> fields)
+ *      <li><code>5</code> - return quantity of weeks, days, hours, minutes and seconds (<code>week</code>, <code>day</code>, <code>hour</code>, <code>minute</code> and <code>second</code> fields)
  *      </ul>
  * @param {Boolean} [bAddStrings]
  *      Specifies whether additional string fields should be included into result object.
@@ -96,6 +97,19 @@
  *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
  *              </td>
  *          </tr>
+ *          <tr>
+ *              <td>week</td>
+ *              <td>Integer</td>
+ *              <td>Quantity of full weeks</td>
+ *          </tr>
+ *          <tr>
+ *              <td>week2</td>
+ *              <td>String</td>
+ *              <td>
+ *                  Quantity of full weeks. String contains at least 2 characters.
+ *                  This field is included only when <code>bAddStrings</code> has <code>true</code> value.
+ *              </td>
+ *          </tr>
  *      </table>
  * @alias module:duratiform.divide
  */
@@ -122,6 +136,10 @@ function divide(nDuration, nPartQty, bAddStrings) {
         nPartQty = 3;
     }
 
+    // Extract weeks
+    if (nPartQty > 4) {
+        getPart("week", 604800);
+    }
     // Extract days
     if (nPartQty > 3) {
         getPart("day", 86400);
@@ -159,18 +177,22 @@ function divide(nDuration, nPartQty, bAddStrings) {
  *      <li><code>mm</code> - quantity of minutes (2 or more characters)
  *      <li><code>s</code> - quantity of seconds (1 or more characters)
  *      <li><code>ss</code> - quantity of seconds (2 or more characters)
+ *      <li><code>w</code> - quantity of weeks (1 or more characters)
+ *      <li><code>ww</code> - quantity of weeks (2 or more characters)
  *      <li><code>[</code> - cancel special processing of the following characters (except <code>\x</code> and <code>]</code>);
  *              this character won't be included into the result
  *      <li><code>]</code> - restore special processing that was previously cancelled by <code>[</code> character;
  *              this character won't be included into the result;
  *              thus any sequence of characters that is surrounded by square brackets (except <code>\x</code> and <code>]</code>)
  *              will be included into the result as is but without brackets
- *      <li><code>(x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
- *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
- *              that will be included in the result only when the corresponding part of duration is present (above 0)
- *      <li><code>(!x:</code> - where <code>x</code> is one of <code>d</code> (days), <code>h</code> (hours),
- *              <code>m</code> (minutes) or <code>s</code> (seconds), begin group of characters
- *              that will be included in the result only when the corresponding part of duration is not present (equals to 0)
+ *      <li><code>(x:</code> - where <code>x</code> is one of <code>w</code> (weeks), <code>d</code> (days),
+ *              <code>h</code> (hours), <code>m</code> (minutes) or <code>s</code> (seconds),
+ *              begin group of characters that will be included in the result
+ *              only when the corresponding part of duration is present (above 0)
+ *      <li><code>(!x:</code> - where <code>x</code> is one of <code>w</code> (weeks), <code>d</code> (days),
+ *              <code>h</code> (hours), <code>m</code> (minutes) or <code>s</code> (seconds),
+ *              begin group of characters that will be included in the result
+ *              only when the corresponding part of duration is not present (equals to 0)
  *      <li><code>)</code> - end of previous group; thus by using format <code>(h:h:)mm:ss</code> hours part
  *              will be in result only when duration is greater than 60 minutes
  *      </ul>
@@ -187,6 +209,7 @@ function format(nDuration, sFormat) {
         groupList = [],
         nP = 0,
         specialChar = {
+            w: ["week", 5],
             d: ["day", 4],
             h: ["hour", 3],
             m: ["minute", 2],
@@ -258,7 +281,7 @@ function format(nDuration, sFormat) {
         else if (bReplace && sChar === "("
                 && ((bNegative = sNextChar === "!") || true)
                 && sFormat.charAt(nI + (bNegative ? 3 : 2)) === ":"
-                && (part = (bNegative ? sFormat.charAt(nI + 2) : sNextChar).match(/d|h|m|s/))) {
+                && (part = (bNegative ? sFormat.charAt(nI + 2) : sNextChar).match(/d|h|m|s|w/))) {
             if (group) {
                 groupList.push(group);
             }

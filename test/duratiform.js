@@ -6,6 +6,7 @@ describe("duratiform", function() {
         nMinute = 60 * nSecond,
         nHour = 60 * nMinute,
         nDay = 24 * nHour,
+        nWeek = 7 * nDay,
         lib, expect;
 
     // node
@@ -98,8 +99,29 @@ describe("duratiform", function() {
             });
         });
 
-        describe("divide(nDuration, 1|2|3|4, true)", function() {
+        describe("divide(nDuration, 5)", function() {
+            it("should return object with correct 'week', 'day', 'hour', 'minute' and 'second' fields", function() {
+                expect( divide(3 * nWeek + 6 * nDay + 17 * nHour + 47 * nMinute + 57 * nSecond, 5) )
+                    .eql({week: 3, day: 6, hour: 17, minute: 47, second: 57});
+                expect( divide(1 * nDay, 5) )
+                    .eql({week: 0, day: 1, hour: 0, minute: 0, second: 0});
+                expect( divide(2 * nWeek + 6 * nDay + 25 * nHour + 6 * nMinute + 3 * nSecond, 5) )
+                    .eql({week: 3, day: 0, hour: 1, minute: 6, second: 3});
+                expect( divide(7 * nDay + 65 * nMinute + 42 * nSecond, 5) )
+                    .eql({week: 1, day: 0, hour: 1, minute: 5, second: 42});
+                expect( divide(23 * nHour + 24 * nMinute + 25 * nSecond, 5) )
+                    .eql({week: 0, day: 0, hour: 23, minute: 24, second: 25});
+                expect( divide(4 * nWeek + 4 * nMinute + 9 * nSecond, 5) )
+                    .eql({week: 4, day: 0, hour: 0, minute: 4, second: 9});
+            });
+        });
+
+        describe("divide(nDuration, 1|2|3|4|5, true)", function() {
             it("should return object with correct 'day', 'day2', 'hour', 'hour2', 'minute', 'minute2', 'second' and 'second2' fields", function() {
+                expect( divide(4 * nWeek + 4 * nMinute + 9 * nSecond, 5, true) )
+                    .eql({week: 4, week2: "04", day: 0, day2: "00", hour: 0, hour2: "00", minute: 4, minute2: "04", second: 9, second2: "09"});
+                expect( divide(11 * nWeek + 2 * nDay + 17 * nHour + 7 * nMinute + 57 * nSecond, 5, true) )
+                    .eql({week: 11, week2: "11", day: 2, day2: "02", hour: 17, hour2: "17", minute: 7, minute2: "07", second: 57, second2: "57"});
                 expect( divide(5 * nDay + 17 * nHour + 4 * nMinute + 28 * nSecond, 4, true) )
                     .eql({day: 5, day2: "05", hour: 17, hour2: "17", minute: 4, minute2: "04", second: 28, second2: "28"});
                 expect( divide(12 * nDay + 4 * nHour + 16 * nMinute, 4, true) )
@@ -287,6 +309,106 @@ describe("duratiform", function() {
                 expect( format(22 * nDay + 7 * nHour + 25 * nSecond, "dd") )
                     .equal("22");
             });
+            it("should return correct 'ww:dd:hh:mm:ss' string", function() {
+                expect( format(nMinute, "ww:dd:hh:mm:ss") )
+                    .equal("00:00:00:01:00");
+                expect( format(nHour, "ww:dd:hh:mm:ss") )
+                    .equal("00:00:01:00:00");
+                expect( format(nDay, "ww:dd:hh:mm:ss") )
+                    .equal("00:01:00:00:00");
+                expect( format(nWeek, "ww:dd:hh:mm:ss") )
+                    .equal("01:00:00:00:00");
+                expect( format(23 * nHour + 59 * nMinute + 59 * nSecond, "ww:dd:hh:mm:ss") )
+                    .equal("00:00:23:59:59");
+                expect( format(10 * nWeek + 2 * nDay + 22 * nHour + 5 * nMinute + 37 * nSecond, "ww:dd:hh:mm:ss") )
+                    .equal("10:02:22:05:37");
+                expect( format(15 * nDay + 43 * nMinute + 6 * nSecond, "ww:dd:hh:mm:ss") )
+                    .equal("02:01:00:43:06");
+                expect( format(79 * nWeek + 4 * nDay + 5 * nHour + 12 * nSecond, "ww:dd:hh:mm:ss") )
+                    .equal("79:04:05:00:12");
+                expect( format(16 * nDay + 19 * nHour + 43 * nMinute, "ww:dd:hh:mm:ss") )
+                    .equal("02:02:19:43:00");
+                expect( format(0, "ww:dd:hh:mm:ss") )
+                    .equal("00:00:00:00:00");
+            });
+            it("should return correct 'ww:dd:hh:mm' string", function() {
+                expect( format(nMinute, "ww:dd:hh:mm") )
+                    .equal("00:00:00:01");
+                expect( format(nHour, "ww:dd:hh:mm") )
+                    .equal("00:00:01:00");
+                expect( format(nDay, "ww:dd:hh:mm") )
+                    .equal("00:01:00:00");
+                expect( format(nWeek, "ww:dd:hh:mm") )
+                    .equal("01:00:00:00");
+                expect( format(23 * nHour + 59 * nMinute + 59 * nSecond, "ww:dd:hh:mm") )
+                    .equal("00:00:23:59");
+                expect( format(10 * nWeek + 2 * nDay + 22 * nHour + 5 * nMinute + 37 * nSecond, "ww:dd:hh:mm") )
+                    .equal("10:02:22:05");
+                expect( format(15 * nDay + 43 * nMinute + 6 * nSecond, "ww:dd:hh:mm") )
+                    .equal("02:01:00:43");
+                expect( format(79 * nWeek + 4 * nDay + 5 * nHour + 12 * nSecond, "ww:dd:hh:mm") )
+                    .equal("79:04:05:00");
+                expect( format(16 * nDay + 19 * nHour + 43 * nMinute, "ww:dd:hh:mm") )
+                    .equal("02:02:19:43");
+                expect( format(0, "ww:dd:hh:mm") )
+                    .equal("00:00:00:00");
+            });
+            it("should return correct 'ww:dd:hh' string", function() {
+                expect( format(nMinute, "ww:dd:hh") )
+                    .equal("00:00:00");
+                expect( format(nHour, "ww:dd:hh") )
+                    .equal("00:00:01");
+                expect( format(nDay, "ww:dd:hh") )
+                    .equal("00:01:00");
+                expect( format(nWeek, "ww:dd:hh") )
+                    .equal("01:00:00");
+                expect( format(23 * nHour + 59 * nMinute + 59 * nSecond, "ww:dd:hh") )
+                    .equal("00:00:23");
+                expect( format(10 * nWeek + 2 * nDay + 22 * nHour + 5 * nMinute + 37 * nSecond, "ww:dd:hh") )
+                    .equal("10:02:22");
+                expect( format(15 * nDay + 43 * nMinute + 6 * nSecond, "ww:dd:hh") )
+                    .equal("02:01:00");
+                expect( format(79 * nWeek + 4 * nDay + 5 * nHour + 12 * nSecond, "ww:dd:hh") )
+                    .equal("79:04:05");
+                expect( format(16 * nDay + 19 * nHour + 43 * nMinute, "ww:dd:hh") )
+                    .equal("02:02:19");
+                expect( format(0, "ww:dd:hh") )
+                    .equal("00:00:00");
+            });
+            it("should return correct 'ww:dd' string", function() {
+                expect( format(nHour, "ww:dd") )
+                    .equal("00:00");
+                expect( format(nDay, "ww:dd") )
+                    .equal("00:01");
+                expect( format(nWeek, "ww:dd") )
+                    .equal("01:00");
+                expect( format(23 * nHour + 59 * nMinute + 59 * nSecond, "ww:dd") )
+                    .equal("00:00");
+                expect( format(10 * nWeek + 2 * nDay + 22 * nHour + 5 * nMinute + 37 * nSecond, "ww:dd") )
+                    .equal("10:02");
+                expect( format(15 * nDay + 43 * nMinute + 6 * nSecond, "ww:dd") )
+                    .equal("02:01");
+                expect( format(79 * nWeek + 4 * nDay + 5 * nHour + 12 * nSecond, "ww:dd") )
+                    .equal("79:04");
+                expect( format(16 * nDay + 19 * nHour + 43 * nMinute, "ww:dd") )
+                    .equal("02:02");
+            });
+            it("should return correct 'ww' string", function() {
+                expect( format(nDay, "ww") )
+                    .equal("00");
+                expect( format(nWeek, "ww") )
+                    .equal("01");
+                expect( format(23 * nHour + 59 * nMinute + 59 * nSecond, "ww") )
+                    .equal("00");
+                expect( format(10 * nWeek + 2 * nDay + 22 * nHour + 5 * nMinute + 37 * nSecond, "ww") )
+                    .equal("10");
+                expect( format(15 * nDay + 43 * nMinute + 6 * nSecond, "ww") )
+                    .equal("02");
+                expect( format(79 * nWeek + 4 * nDay + 5 * nHour + 12 * nSecond, "ww") )
+                    .equal("79");
+                expect( format(16 * nDay + 19 * nHour + 43 * nMinute, "ww") )
+                    .equal("02");
+            });
             describe("should return correct result string", function() {
                 var testList = [
                     {
@@ -313,6 +435,16 @@ describe("duratiform", function() {
                         duration: 14 * nDay + 7 * nHour + 9 * nMinute + 28 * nSecond,
                         format: "\\day\\s: d, \\hour\\s: h, \\minute\\s: m, \\secon\\d\\s: s",
                         result: "days: 14, hours: 7, minutes: 9, seconds: 28"
+                    },
+                    {
+                        duration: 14 * nDay + 7 * nHour + 9 * nMinute + 28 * nSecond,
+                        format: "[weeks]: w, [days]: d, [hours]: h, [minutes]: m, [seconds]: s",
+                        result: "weeks: 2, days: 0, hours: 7, minutes: 9, seconds: 28"
+                    },
+                    {
+                        duration: 4 * nDay + 7 * nHour + 9 * nMinute + 28 * nSecond,
+                        format: "[weeks]: w, [days]: d, [hours]: hh, [minutes]: mm, [seconds]: ss",
+                        result: "weeks: 0, days: 4, hours: 07, minutes: 09, seconds: 28"
                     },
                     {
                         duration: 3 * nDay + 5 * nHour + 46 * nMinute + 37 * nSecond,
@@ -378,6 +510,21 @@ describe("duratiform", function() {
                         duration: 365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond,
                         format: "дни: d, часы: h, минуты: m, секунды: s",
                         result: "дни: 365, часы: 23, минуты: 59, секунды: 59"
+                    },
+                    {
+                        duration: 365 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond,
+                        format: "недели: w, дни: d, часы: h, минуты: m, секунды: s",
+                        result: "недели: 52, дни: 1, часы: 23, минуты: 59, секунды: 59"
+                    },
+                    {
+                        duration: 7 * nWeek + 3 * nDay + 8 * nHour + 4 * nMinute + 7 * nSecond,
+                        format: "(w:[weeks - ]w;)(d: [days - ]dd;)(h: [hours - ]hh;)(m: [minutes - ]mm;)(s: [seconds - ]ss)",
+                        result: "weeks - 7; days - 03; hours - 08; minutes - 04; seconds - 07"
+                    },
+                    {
+                        duration: 3 * nDay + 16 * nHour + 4 * nMinute + 27 * nSecond,
+                        format: "(w:[weeks - ]w;)(d:(w: )[days - ]d;)(h: [hours - ]h;)(m: [minutes - ]mm;)(s: [seconds - ]ss)",
+                        result: "days - 3; hours - 16; minutes - 04; seconds - 27"
                     },
                     {
                         duration: 3 * nDay + 16 * nHour + 4 * nMinute + 27 * nSecond,
@@ -623,6 +770,31 @@ describe("duratiform", function() {
                         duration: 2 * nMinute + 5 * nSecond,
                         format: "(d:d [day(s)](h: h [hour(s)])(m: m [minute(s)])(s: s [second(s)]))(!d:(h:h:mm:ss)(!h:m:ss))",
                         result: "2:05"
+                    },
+                    {
+                        duration: 9 * nWeek + 14 * nHour + 30 * nSecond,
+                        format: "(w:ww [week(s)](d: d [day(s)]))(!w:(d:d [day(s)])(h:(d: )h [hour(s)]))[ ago]",
+                        result: "09 week(s) ago"
+                    },
+                    {
+                        duration: 9 * nWeek + 14 * nHour + 30 * nSecond,
+                        format: "(w:w [week(s)](d: d [day(s)]))(!w:(d:d [day(s)])(h:(d: )h [hour(s)]))[ ago]",
+                        result: "9 week(s) ago"
+                    },
+                    {
+                        duration: 15 * nWeek + 4 * nDay + 22 * nHour + 49 * nMinute,
+                        format: "(w:w [week(s)](d: dd [day(s)]))(!w:(d:d [day(s)])(h:(d: )h [hour(s)]))[ ago]",
+                        result: "15 week(s) 04 day(s) ago"
+                    },
+                    {
+                        duration: 6 * nDay + 23 * nHour + 59 * nMinute + 59 * nSecond,
+                        format: "(w:w [week(s)](d: d [day(s)]))(!w:(d:d [day(s)])(h:(d: )h [hour(s)]))[ ago]",
+                        result: "6 day(s) 23 hour(s) ago"
+                    },
+                    {
+                        duration: 23 * nHour + 59 * nMinute,
+                        format: "(w:w [week(s)](d: d [day(s)]))(!w:(d:d [day(s)])(h:(d: )h [hour(s)]))[ ago]",
+                        result: "23 hour(s) ago"
                     }
                 ];
 

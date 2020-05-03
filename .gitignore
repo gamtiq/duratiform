@@ -1,6 +1,7 @@
 components
 build
 node_modules
+tmp
 .settings
 .project
 .vscode
