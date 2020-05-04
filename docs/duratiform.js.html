@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>duratiform.js - duratiform</title>
+    
+    <meta name="description" content="Utility to separate into parts and to format time duration in milliseconds" />
+    
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/gamtiq/duratiform" target="_blank" id="github_link" >GitHub repo</a></h2><h3>Modules</h3><ul><li><a href="module-duratiform.html">duratiform</a><ul class='methods'><li data-type='method'><a href="module-duratiform.html#.divide">divide</a></li><li data-type='method'><a href="module-duratiform.html#.format">format</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">duratiform.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module duratiform
+ */
+
+/**
+ * Separate time duration into parts.
+ *
+ * @param {Integer} nDuration
+ *      Time duration in milliseconds.
+ * @param {Integer} [nPartQty]
+ *      Parts quantity. The default value is 3.
+ *      The following values are allowed:
+ *      &lt;ul>
+ *      &lt;li>&lt;code>1&lt;/code> - return seconds quantity (&lt;code>second&lt;/code> field)
+ *      &lt;li>&lt;code>2&lt;/code> - return quantity of minutes and seconds (&lt;code>minute&lt;/code> and &lt;code>second&lt;/code> fields)
+ *      &lt;li>&lt;code>3&lt;/code> - return quantity of hours, minutes and seconds (&lt;code>hour&lt;/code>, &lt;code>minute&lt;/code> and &lt;code>second&lt;/code> fields)
+ *      &lt;li>&lt;code>4&lt;/code> - return quantity of days, hours, minutes and seconds (&lt;code>day&lt;/code>, &lt;code>hour&lt;/code>, &lt;code>minute&lt;/code> and &lt;code>second&lt;/code> fields)
+ *      &lt;li>&lt;code>5&lt;/code> - return quantity of weeks, days, hours, minutes and seconds (&lt;code>week&lt;/code>, &lt;code>day&lt;/code>, &lt;code>hour&lt;/code>, &lt;code>minute&lt;/code> and &lt;code>second&lt;/code> fields)
+ *      &lt;/ul>
+ * @param {Boolean} [bAddStrings]
+ *      Specifies whether additional string fields should be included into result object.
+ *      An additional field represents a value of calculated part that is converted into string
+ *      and is prefixed with "0" if it is necessary (i.e. values from 0 to 9 are converted to "00"-"09").
+ *      The default value is &lt;code>false&lt;/code>.
+ * @return {Object}
+ *      Object representing the requested parts of time duration. Can contain the following fields.
+ *      &lt;table class="params">
+ *          &lt;tr>
+ *              &lt;th>Name&lt;/th>
+ *              &lt;th>Type&lt;/th>
+ *              &lt;th>Description&lt;/th>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>day&lt;/td>
+ *              &lt;td>Integer&lt;/td>
+ *              &lt;td>Quantity of full days&lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>day2&lt;/td>
+ *              &lt;td>String&lt;/td>
+ *              &lt;td>
+ *                  Quantity of full days. String contains at least 2 characters.
+ *                  This field is included only when &lt;code>bAddStrings&lt;/code> has &lt;code>true&lt;/code> value.
+ *              &lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>hour&lt;/td>
+ *              &lt;td>Integer&lt;/td>
+ *              &lt;td>Quantity of full hours&lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>hour2&lt;/td>
+ *              &lt;td>String&lt;/td>
+ *              &lt;td>
+ *                  Quantity of full hours. String contains at least 2 characters.
+ *                  This field is included only when &lt;code>bAddStrings&lt;/code> has &lt;code>true&lt;/code> value.
+ *              &lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>minute&lt;/td>
+ *              &lt;td>Integer&lt;/td>
+ *              &lt;td>Quantity of full minutes&lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>minute2&lt;/td>
+ *              &lt;td>String&lt;/td>
+ *              &lt;td>
+ *                  Quantity of full minutes. String contains at least 2 characters.
+ *                  This field is included only when &lt;code>bAddStrings&lt;/code> has &lt;code>true&lt;/code> value.
+ *              &lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>second&lt;/td>
+ *              &lt;td>Integer&lt;/td>
+ *              &lt;td>Quantity of full seconds&lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>second2&lt;/td>
+ *              &lt;td>String&lt;/td>
+ *              &lt;td>
+ *                  Quantity of full seconds. String contains at least 2 characters.
+ *                  This field is included only when &lt;code>bAddStrings&lt;/code> has &lt;code>true&lt;/code> value.
+ *              &lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>week&lt;/td>
+ *              &lt;td>Integer&lt;/td>
+ *              &lt;td>Quantity of full weeks&lt;/td>
+ *          &lt;/tr>
+ *          &lt;tr>
+ *              &lt;td>week2&lt;/td>
+ *              &lt;td>String&lt;/td>
+ *              &lt;td>
+ *                  Quantity of full weeks. String contains at least 2 characters.
+ *                  This field is included only when &lt;code>bAddStrings&lt;/code> has &lt;code>true&lt;/code> value.
+ *              &lt;/td>
+ *          &lt;/tr>
+ *      &lt;/table>
+ * @alias module:duratiform.divide
+ */
+function divide(nDuration, nPartQty, bAddStrings) {
+    var result = {};
+
+    function getPart(sField, nDivisor) {
+        var nV;
+        if (nDuration >= nDivisor) {
+            nV = result[sField] = Math.floor(nDuration / nDivisor);
+            nDuration = nDuration % nDivisor;
+        }
+        else {
+            nV = result[sField] = 0;
+        }
+        if (bAddStrings) {
+            result[sField + "2"] = nV &lt; 10 ? "0" + nV : String(nV);
+        }
+    }
+
+    // Convert duration to seconds
+    nDuration = nDuration * 0.001;
+    if (! nPartQty) {
+        nPartQty = 3;
+    }
+
+    // Extract weeks
+    if (nPartQty > 4) {
+        getPart("week", 604800);
+    }
+    // Extract days
+    if (nPartQty > 3) {
+        getPart("day", 86400);
+    }
+    // Extract hours
+    if (nPartQty > 2) {
+        getPart("hour", 3600);
+    }
+    // Extract minutes
+    if (nPartQty > 1) {
+        getPart("minute", 60);
+    }
+    // Extract seconds
+    if (nPartQty > 0) {
+        getPart("second", 1);
+    }
+    return result;
+}
+
+/**
+ * Convert time duration into string.
+ *
+ * @param {Integer} nDuration
+ *      Time duration in milliseconds.
+ * @param {String} [sFormat]
+ *      Format of the returned value. The default value is &lt;code>hh:mm:ss&lt;/code>.&lt;br>
+ *      The following tokens are interpreted in special way:
+ *      &lt;ul>
+ *      &lt;li>&lt;code>\x&lt;/code> - replaced by &lt;code>x&lt;/code>, where &lt;code>x&lt;/code> is any character
+ *      &lt;li>&lt;code>d&lt;/code> - quantity of days (1 or more characters)
+ *      &lt;li>&lt;code>dd&lt;/code> - quantity of days (2 or more characters)
+ *      &lt;li>&lt;code>h&lt;/code> - quantity of hours (1 or more characters)
+ *      &lt;li>&lt;code>hh&lt;/code> - quantity of hours (2 or more characters)
+ *      &lt;li>&lt;code>m&lt;/code> - quantity of minutes (1 or more characters)
+ *      &lt;li>&lt;code>mm&lt;/code> - quantity of minutes (2 or more characters)
+ *      &lt;li>&lt;code>s&lt;/code> - quantity of seconds (1 or more characters)
+ *      &lt;li>&lt;code>ss&lt;/code> - quantity of seconds (2 or more characters)
+ *      &lt;li>&lt;code>w&lt;/code> - quantity of weeks (1 or more characters)
+ *      &lt;li>&lt;code>ww&lt;/code> - quantity of weeks (2 or more characters)
+ *      &lt;li>&lt;code>[&lt;/code> - cancel special processing of the following characters (except &lt;code>\x&lt;/code> and &lt;code>]&lt;/code>);
+ *              this character won't be included into the result
+ *      &lt;li>&lt;code>]&lt;/code> - restore special processing that was previously cancelled by &lt;code>[&lt;/code> character;
+ *              this character won't be included into the result;
+ *              thus any sequence of characters that is surrounded by square brackets (except &lt;code>\x&lt;/code> and &lt;code>]&lt;/code>)
+ *              will be included into the result as is but without brackets
+ *      &lt;li>&lt;code>(x:&lt;/code> - where &lt;code>x&lt;/code> is one of &lt;code>w&lt;/code> (weeks), &lt;code>d&lt;/code> (days),
+ *              &lt;code>h&lt;/code> (hours), &lt;code>m&lt;/code> (minutes) or &lt;code>s&lt;/code> (seconds),
+ *              begin group of characters that will be included in the result
+ *              only when the corresponding part of duration is present (above 0)
+ *      &lt;li>&lt;code>(!x:&lt;/code> - where &lt;code>x&lt;/code> is one of &lt;code>w&lt;/code> (weeks), &lt;code>d&lt;/code> (days),
+ *              &lt;code>h&lt;/code> (hours), &lt;code>m&lt;/code> (minutes) or &lt;code>s&lt;/code> (seconds),
+ *              begin group of characters that will be included in the result
+ *              only when the corresponding part of duration is not present (equals to 0)
+ *      &lt;li>&lt;code>)&lt;/code> - end of previous group; thus by using format &lt;code>(h:h:)mm:ss&lt;/code> hours part
+ *              will be in result only when duration is greater than 60 minutes
+ *      &lt;/ul>
+ *      All other characters will be included into the result as is.
+ * @return {String}
+ *      String representing time duration depending of format.
+ * @alias module:duratiform.format
+ */
+function format(nDuration, sFormat) {
+    /*jshint boss:true, laxbreak:true*/
+    var result = [],
+        bReplace = true,
+        group = null,
+        groupList = [],
+        nP = 0,
+        specialChar = {
+            w: ["week", 5],
+            d: ["day", 4],
+            h: ["hour", 3],
+            m: ["minute", 2],
+            s: ["second", 1]
+        },
+        sSlash = "\\",
+        bNegative, nI, nK, nL, sChar, sNextChar, part, struct;
+
+    function getGroupList() {
+        return group &amp;&amp; groupList.concat(group);
+    }
+
+    function getPart() {
+        var groupSet = this.g,
+            bNot, nEnd, nNum, sGroupExpr;
+        if (groupSet) {
+            for (nNum = 0, nEnd = groupSet.length; nNum &lt; nEnd; nNum++) {
+                sGroupExpr = groupSet[nNum];
+                bNot = sGroupExpr.charAt(0) === "!";
+                if ((bNot &amp;&amp; struct[sGroupExpr.substring(1)]) || (! bNot &amp;&amp; ! struct[sGroupExpr])) {
+                    groupSet = false;
+                    break;
+                }
+            }
+        }
+        else {
+            groupSet = true;
+        }
+        return groupSet
+            ? this.c || String(struct[this.p])
+            : "";
+    }
+
+    if (! sFormat) {
+        sFormat = "hh:mm:ss";
+    }
+    // Scan format string and find positions for replacement
+    for (nI = 0, nL = sFormat.length, nK = nL - 1; nI &lt; nL; nI++) {
+        sChar = sFormat.charAt(nI);
+        sNextChar = sFormat.charAt(nI + 1);
+        // Special character
+        if (bReplace &amp;&amp; sChar in specialChar) {
+            struct = specialChar[sChar];
+            // Save value that will be replaced:
+            // 2 or more characters
+            if (sNextChar === sChar) {
+                part = struct[0] + "2";
+                nI++;
+            }
+            // 1 or more characters
+            else {
+                part = struct[0];
+            }
+            result.push({p: part, g: getGroupList(), toString: getPart});
+            // Change quantity of time duration parts if it is necessary
+            if (struct[1] > nP) {
+                nP = struct[1];
+            }
+        }
+        // Cancel special processing
+        else if (bReplace &amp;&amp; sChar === "[") {
+            bReplace = false;
+        }
+        // Restore special processing
+        else if (! bReplace &amp;&amp; sChar === "]") {
+            bReplace = true;
+        }
+        // Start of a group
+        else if (bReplace &amp;&amp; sChar === "("
+                &amp;&amp; ((bNegative = sNextChar === "!") || true)
+                &amp;&amp; sFormat.charAt(nI + (bNegative ? 3 : 2)) === ":"
+                &amp;&amp; (part = (bNegative ? sFormat.charAt(nI + 2) : sNextChar).match(/d|h|m|s|w/))) {
+            if (group) {
+                groupList.push(group);
+            }
+            group = (bNegative ? "!" : "") + specialChar[part[0]][0];
+            nI += bNegative ? 3 : 2;
+        }
+        // End of a group
+        else if (bReplace &amp;&amp; group &amp;&amp; sChar === ")") {
+            group = groupList.length
+                ? groupList.pop()
+                : null;
+        }
+        // Any other character or escaped character
+        else if (sChar !== sSlash || nI &lt; nK) {
+            // Escaped character
+            if (sChar === sSlash) {
+                sChar = sNextChar;
+                nI++;
+            }
+            result.push(
+                group
+                    ? {g: getGroupList(), c: sChar, toString: getPart}
+                    : sChar
+            );
+        }
+    }
+    // Get parts of duration if it is necessary
+    if (nP) {
+        struct = divide(nDuration, nP, true);
+    }
+    return result.join("");
+}
+
+//Exports
+
+module.exports = {
+    divide: divide,
+    format: format
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon May 04 2020 15:31:18 GMT+0300 (GMT+03:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

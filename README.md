@@ -7,7 +7,7 @@ duratiform.divide(123456789000, 4);   // { day: 1428, hour: 21, minute: 33, seco
 duratiform.format(456789, '(h:h:)(m:mm:)(s:ss)');   // 07:36
 ```
 
-See additional examples below.
+[See additional examples below.](#examples)
 
 [![NPM version](https://badge.fury.io/js/duratiform.png)](http://badge.fury.io/js/duratiform)
 [![Build Status](https://travis-ci.org/gamtiq/duratiform.png)](https://travis-ci.org/gamtiq/duratiform)
@@ -53,7 +53,7 @@ define(['path/to/dist/duratiform.js'], function(duratiform) {
 </script>
 ```
 
-### Examples
+### Examples <a name="examples"></a>
 
 ```js
 var nDuration = 123456789000;
@@ -80,15 +80,15 @@ See `test/duratiform.js` for additional examples.
 
 ## API
 
-### divide(nDuration: number, [nPartQty: number], [bAddStrings: boolean]): object
+### [divide(nDuration: number, [nPartQty: number], [bAddStrings: boolean]): object](https://gamtiq.github.io/duratiform/module-duratiform.html#.divide)
 
 Separate time duration into parts.
 
-### format(nDuration: number, [sFormat: string]): string
+### [format(nDuration: number, [sFormat: string]): string](https://gamtiq.github.io/duratiform/module-duratiform.html#.format)
 
 Convert time duration into string.
 
-See `doc` folder for details.
+See [`docs`](https://gamtiq.github.io/duratiform/) for details.
 
 ## License
 

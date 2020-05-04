@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Home - duratiform</title>
+    
+    <meta name="description" content="Utility to separate into parts and to format time duration in milliseconds" />
+    
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/gamtiq/duratiform" target="_blank" id="github_link" >GitHub repo</a></h2><h3>Modules</h3><ul><li><a href="module-duratiform.html">duratiform</a><ul class='methods'><li data-type='method'><a href="module-duratiform.html#.divide">divide</a></li><li data-type='method'><a href="module-duratiform.html#.format">format</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+    <section class="package">
+        <h3> </h3>		
+    </section>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    <section class="readme usertext">
+        <article><h1>duratiform</h1>
+<p>Utility to separate into parts and to format time duration in milliseconds.</p>
+<pre class="prettyprint source lang-js"><code>duratiform.divide(123456789000, 4);   // { day: 1428, hour: 21, minute: 33, second: 9 }
+duratiform.format(456789, '(h:h:)(m:mm:)(s:ss)');   // 07:36
+</code></pre>
+<p><a href="#examples">See additional examples below.</a></p>
+<p><a href="http://badge.fury.io/js/duratiform"><img src="https://badge.fury.io/js/duratiform.png" alt="NPM version"></a>
+<a href="https://travis-ci.org/gamtiq/duratiform"><img src="https://travis-ci.org/gamtiq/duratiform.png" alt="Build Status"></a></p>
+<h2>Installation</h2>
+<h3>Node</h3>
+<pre><code>npm install duratiform
+</code></pre>
+<h3><a href="https://bower.io">Bower</a></h3>
+<pre><code>bower install duratiform
+</code></pre>
+<h3>AMD, &lt;script&gt;</h3>
+<p>Use <code>dist/duratiform.js</code> or <code>dist/duratiform.min.js</code> (minified version).</p>
+<h2>Usage</h2>
+<h3>Node</h3>
+<pre class="prettyprint source lang-js"><code>var duratiform = require('duratiform');
+</code></pre>
+<h3>AMD</h3>
+<pre class="prettyprint source lang-js"><code>define(['path/to/dist/duratiform.js'], function(duratiform) {
+    ...
+});
+</code></pre>
+<h3>Bower, &lt;script&gt;</h3>
+<pre class="prettyprint source lang-html"><code>&lt;!-- Use bower_components/duratiform/dist/duratiform.js if the library was installed by Bower -->
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/dist/duratiform.js&quot;>&lt;/script>
+&lt;script type=&quot;text/javascript&quot;>
+    // duratiform is available via duratiform field of window object
+    ...
+&lt;/script>
+</code></pre>
+<h3>Examples <a name="examples"></a></h3>
+<pre class="prettyprint source lang-js"><code>var nDuration = 123456789000;
+console.log('5 duration parts: ', duratiform.divide(nDuration, 5));   // { week: 204, day: 0, hour: 21, minute: 33, second: 9 }
+console.log(nDuration, ' - ', duratiform.format(nDuration, 'w [weeks] d [days] h [hours] m [minutes] s [seconds]'));   // 204 weeks 0 days 21 hours 33 minutes 9 seconds
+console.log('4 duration parts: ', duratiform.divide(nDuration, 4));   // { day: 1428, hour: 21, minute: 33, second: 9 }
+console.log(nDuration, ' - ', duratiform.format(nDuration, 'd [days] h [hours] m [minutes] s [seconds]'));   // 1428 days 21 hours 33 minutes 9 seconds
+
+console.log('120184000, 4 parts - ', duratiform.divide(120184000, 4));   // { day: 1, hour: 9, minute: 23, second: 4 }
+console.log('120184000, 4 parts and strings - ', duratiform.divide(120184000, 4, true));   // { day: 1, day2: &quot;01&quot;, hour: 9, hour2: &quot;09&quot;, minute: 23, minute2: &quot;23&quot;, second: 4, second2: &quot;04&quot; }
+console.log('120184000, 3 parts - ', duratiform.divide(120184000, 3));   // { hour: 33, minute: 23, second: 4 }
+
+console.log('4567890 - ', duratiform.format(4567890, '(h:h:)(m:mm:)(s:ss)'));   // 1:16:07
+console.log('456789 - ', duratiform.format(456789, '(h:h:)(m:mm:)(s:ss)'));   // 07:36
+console.log('456789 - ', duratiform.format(456789, '(h:h:(m:mm:)(s:ss))'));   // empty string
+
+console.log('4567890 - ', duratiform.format(4567890, 'Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))'));   // Duration: 1 hr 16 min 07 sec
+console.log('456789 - ', duratiform.format(456789, 'Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))'));   // Duration: 7 min 36 sec
+console.log('6789 - ', duratiform.format(6789, 'Duration:(h: h [hr](m: mm [min](s: ss [sec])))(!h: (m:m [min](s: ss [sec]))(!m:s [sec]))'));   // Duration: 6 sec
+
+</code></pre>
+<p>See <code>test/duratiform.js</code> for additional examples.</p>
+<h2>API</h2>
+<h3><a href="https://gamtiq.github.io/duratiform/module-duratiform.html#.divide">divide(nDuration: number, [nPartQty: number], [bAddStrings: boolean]): object</a></h3>
+<p>Separate time duration into parts.</p>
+<h3><a href="https://gamtiq.github.io/duratiform/module-duratiform.html#.format">format(nDuration: number, [sFormat: string]): string</a></h3>
+<p>Convert time duration into string.</p>
+<p>See <a href="https://gamtiq.github.io/duratiform/"><code>docs</code></a> for details.</p>
+<h2>License</h2>
+<p>MIT</p></article>
+    </section>
+
+
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon May 04 2020 15:31:18 GMT+0300 (GMT+03:00) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
