@@ -11,6 +11,8 @@ export interface DivideResult {
     minute2?: string;
     second?: number;
     second2?: string;
+    week?: number;
+    week2?: string;
 }
 
 export function divide(duration: number, partQty?: number, addStrings?: boolean): DivideResult;

@@ -1,6 +1,6 @@
 {
   "name": "duratiform",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Utility to separate into parts and to format time duration in milliseconds",
   "main": "duratiform.js",
   "types": "./index.d.ts",
@@ -39,6 +39,7 @@
   "devDependencies": {
     "docdash": "1.2.0",
     "grunt": "1.1.0",
+    "grunt-bump": "0.8.0",
     "grunt-contrib-jshint": "2.1.0",
     "grunt-contrib-uglify": "4.0.1",
     "grunt-jsdoc": "2.4.1",

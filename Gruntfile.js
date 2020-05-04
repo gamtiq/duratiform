@@ -62,11 +62,23 @@ module.exports = function(grunt) {
                 globalAlias: "<%= name %>",
                 indent: "    "
             }
+        },
+
+        bump: {
+            options: {
+                files: ["package.json", "package-lock.json", "bower.json", "component.json"],
+                commitMessage: "Release version %VERSION%",
+                commitFiles: ["-a"],
+                tagName: "%VERSION%",
+                tagMessage: "Version %VERSION%",
+                pushTo: "origin"
+            }
         }
 
     });
 
     // Plugins
+    grunt.loadNpmTasks("grunt-bump");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-jsdoc");
@@ -79,4 +91,8 @@ module.exports = function(grunt) {
     grunt.registerTask("test", ["mochacli"]);
     grunt.registerTask("default", ["jshint", "mochacli"]);
     grunt.registerTask("all", ["default", "build", "doc"]);
+
+    grunt.registerTask("release", ["bump"]);
+    grunt.registerTask("release-minor", ["bump:minor"]);
+    grunt.registerTask("release-major", ["bump:major"]);
 };

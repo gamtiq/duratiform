@@ -1,10 +1,10 @@
 {
   "name": "duratiform",
   "main": [
-    "dist/duratiform.js", 
+    "dist/duratiform.js",
     "dist/duratiform.min.js"
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "homepage": "https://github.com/gamtiq/duratiform",
   "authors": [
     "Denis Sikuler"
@@ -13,13 +13,21 @@
   "keywords": [
     "time",
     "duration",
+    "period",
+    "interval",
+    "span",
     "divide",
     "separate",
     "decompose",
+    "parse",
+    "part",
+    "partition",
     "format",
     "string",
     "stringify",
-    "millisecond"
+    "millisecond",
+    "milliseconds",
+    "ms"
   ],
   "license": "MIT",
   "ignore": [
